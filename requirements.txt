@@ -1,0 +1,5 @@
+telebot
+tensorflow==2.10.1
+transformers==4.25.1
+scikit-learn==1.1.3
+numpy==1.23.0
