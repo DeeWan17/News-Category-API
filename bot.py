@@ -1,12 +1,10 @@
-import news_category_model
-import telebot
-from telebot import types
-import time
+from telebot import TeleBot
+import requests
 
 TOKEN = "5565566607:AAFhS8jEqHOvy8jyWvyoK0RdXgpIzvAchbI"
 MIN_CHAR_COUNT = 20
 
-bot = telebot.TeleBot(token=TOKEN)
+bot = TeleBot(token=TOKEN)
 
 
 @bot.message_handler(commands=['start'])
@@ -25,21 +23,22 @@ I\'ve been trained on this dataset of over 200.000 real news articles: https://w
 @bot.message_handler(content_types=["text"])
 def send_text(message):
     text = message.text.replace("\n", " ")
-    print(text)
 
     if len(text) > MIN_CHAR_COUNT:
-        category = news_category_model.get_predicted_category(text)
-        write_log(text, category)
+        category = get_predicted_category(text)
         bot.send_message(message.chat.id, f'Category: {category}')
     else:
-        bot.send_message(
-            message.chat.id, f'Headline must contain at least {MIN_CHAR_COUNT} characters in order to make a prediction.')
+        bot.send_message(message.chat.id, f'Headline must contain at least {MIN_CHAR_COUNT} characters in order to make a prediction.')
 
 
-def write_log(text, category):
-    with open('logs.txt', 'a') as f:
-        f.write(f'{time.ctime()}: {text} : {category}\n')
-        f.close()
+def get_predicted_category(headline):
+    # Make API request
+    response = requests.post(url=f'https://news-category-app.azurewebsites.net/api/predict?headline={headline}')
+    if response.status_code == 200:
+        category = response.text
+        return category
+    else:
+        return 'Error: Failed to call API. Please try again later.'
 
 
 bot.polling(none_stop=True)

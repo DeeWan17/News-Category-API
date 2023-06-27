@@ -2,10 +2,10 @@
 FROM python:3.9.1
 
 # Copy the bot code and model file to the container
-COPY . /app
+COPY . .
 
 # Install the dependencies
-RUN pip install --no-cache-dir -r app/requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
 
 # Set the entrypoint command to run your bot
-CMD ["python", "app/bot.py"]
+CMD ["python", "bot.py"]
