@@ -1,10 +1,10 @@
 from telebot import TeleBot
 import requests
+import token
 
-TOKEN = "5565566607:AAFhS8jEqHOvy8jyWvyoK0RdXgpIzvAchbI"
 MIN_CHAR_COUNT = 20
 
-bot = TeleBot(token=TOKEN)
+bot = TeleBot(token=token.BOT_TOKEN)
 
 
 @bot.message_handler(commands=['start'])
