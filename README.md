@@ -1,9 +1,40 @@
-# Running news category prediction model locally 
+# News Category Prediction Based on News Headline
+
+There are 15 news categories:
+- ACTIVISM & EQUALITY
+- CRIME
+- CULTURE
+- ECONOMY
+- ENTERTAINMENT
+- FOOD & DRINK
+- HEALTH
+- LIFESTYLE
+- MISCELLANEOUS
+- POLITICS
+- SCIENCE & TECH
+- SPORTS
+- STYLE & BEAUTY
+- TRAVEL
+- WORLD NEWS
+
+I have successfully trained a neural network to assign categories to headlines. The training dataset was https://www.kaggle.com/datasets/rmisra/news-category-dataset
+
+Beware that no AI is 100 percent accurate.
+
+# News Category Prediction API
+
+To get a prediction, simply use an API call:
+
+```https://news-category-app.azurewebsites.net/api/predict?headline={ENTER YOUR HEADLINE}```
+
+Output is a plain text with the category name.
+
+# Running News Category Prediction Model Locally 
 If you want to predict news category locally (as opposed to relying on API), you can download these two files:
 
 https://1drv.ms/u/s!AnYA0l4HK_zfgXDBD_wZ2mxhOOfd?e=GyyDMJ - *h5 keras model
 
-https://1drv.ms/u/s!AnYA0l4HK_zfgXGLfqrUMwKm75HT?e=4oroxA - Python pickle file with sklearn.preprocessing.LabelEncoder
+https://1drv.ms/u/s!AnYA0l4HK_zfgXGLfqrUMwKm75HT?e=4oroxA - Python pickle file that holds sklearn.preprocessing.LabelEncoder
 
 Example code of actually using this model on Python:
 ```python
