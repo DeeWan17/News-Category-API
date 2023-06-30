@@ -1,19 +1,17 @@
 from flask import Flask, request
-from telebot import TeleBot
-from telebot import types
+from telebot import TeleBot, types
 from requests import post
-import auth_data
+from config import BOT_TOKEN, WEBHOOK_URL
 
 MIN_CHAR_COUNT = 20
 
-bot = TeleBot(token=auth_data.BOT_TOKEN)
+bot = TeleBot(token=BOT_TOKEN)
 app = Flask(__name__)
 
 # Handle the /start command
 @bot.message_handler(commands=['start'])
 def send_welcome(message):
-    bot.send_message(message.chat.id,
-                     '''Hi! I'm the News Categorizer Bot.\n\nSend me a news headline and I will tell you what category such a news belongs to.
+    bot.send_message(message.chat.id, '''Hi! I'm the News Categorizer Bot.\n\nSend me a news headline and I will tell you what category such a news belongs to.
                      
 I know 15 news categories:
 - ACTIVISM & EQUALITY
@@ -60,20 +58,13 @@ def get_predicted_category(headline):
         return 'Error: Failed to call API. Please try again later.'
 
 
-# Set up the webhook route
-@app.route(f'/{auth_data.BOT_TOKEN}', methods=['POST'])
-def handle_telegram_webhook():
+@app.route(f'/bot/{BOT_TOKEN}', methods=['POST'])
+def webhook():
     update = types.Update.de_json(request.stream.read().decode('utf-8'))
     bot.process_new_updates([update])
-    return "OK"
-
+    return ''
 
 if __name__ == '__main__':
-    # Remove any existing webhook
     bot.remove_webhook()
-
-    # Set the webhook URL
-    bot.set_webhook(url=f'https://$news-category-webapp:lv7i5Cq89hrpYQyJ5d8M4eL1hNvag0cBP2yccpRrt4GTQTHcRdQsDCbmhQxg@news-category-webapp.scm.azurewebsites.net/api/registry/webhook')
-
-    # Start the Flask app
+    bot.set_webhook(url=f'{WEBHOOK_URL}/bot/{BOT_TOKEN}')
     app.run(host='0.0.0.0', port=80)

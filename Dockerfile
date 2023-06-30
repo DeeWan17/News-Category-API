@@ -8,4 +8,4 @@ COPY . .
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Set the entrypoint command to run your bot
-CMD ["python", "bot.py"]
+CMD ["gunicorn", "wsgi:app", "--bind", "0.0.0.0:$PORT"]
