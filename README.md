@@ -17,7 +17,7 @@ There are 15 news categories:
 - TRAVEL
 - WORLD NEWS
 
-I have successfully trained a neural network to assign categories to headlines. The training dataset was https://www.kaggle.com/datasets/rmisra/news-category-dataset
+A neural network has successfully been trained to assign these categories to any news headlines. The training dataset: https://www.kaggle.com/datasets/rmisra/news-category-dataset
 
 Beware that no AI is 100 percent accurate.
 
